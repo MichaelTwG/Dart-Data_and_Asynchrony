@@ -1,49 +1,124 @@
-A server app built using [Shelf](https://pub.dev/packages/shelf),
-configured to enable running with [Docker](https://www.docker.com/).
+# Datos y Asincronía en Dart
 
-This sample code handles HTTP GET requests to `/` and `/echo/<message>`
+## Manejo de Archivos
 
-# Running the sample
+*Introducción y Contexto*
+La persistencia de datos es una característica fundamental de cualquier aplicación robusta. Ya sea que estés guardando preferencias de usuario, registros o datos en caché, el acceso a archivos locales es una necesidad común.
+Este proyecto introduce a los estudiantes a la librería `dart:io` de Dart y proporciona experiencia práctica en la lectura y escritura en el sistema de archivos. Esto prepara el terreno para módulos posteriores que involucren interacciones de datos más complejas.
 
-## Running with the Dart SDK
+---
 
-You can run the example with the [Dart SDK](https://dart.dev/get-dart)
-like this:
+### 0. Crear y Escribir en un Archivo
 
-```
-$ dart run bin/server.dart
-Server listening on port 8080
-```
+**Obligatorio**
+**Objetivo:** Introducir la creación básica de archivos y escritura usando la clase `File`.
 
-And then from a second terminal:
-```
-$ curl http://0.0.0.0:8080
-Hello, World!
-$ curl http://0.0.0.0:8080/echo/I_love_Dart
-I_love_Dart
-```
+**Instrucciones:**
 
-## Running with Docker
+* Crea un archivo llamado `data.txt` dentro de un subdirectorio llamado `storage/`.
+* Escribe la cadena `"User activity log initialized"` en este archivo.
 
-If you have [Docker Desktop](https://www.docker.com/get-started) installed, you
-can build and run with the `docker` command:
+**Resultado Esperado:**
+Un archivo `storage/data.txt` se crea con el contenido:
 
 ```
-$ docker build . -t myserver
-$ docker run -it -p 8080:8080 myserver
-Server listening on port 8080
+User activity log initialized
 ```
 
-And then from a second terminal:
+**Nombre de la función:** `initializeLogFile()`
+
+---
+
+### 1. Agregar Datos a un Archivo
+
+**Obligatorio**
+**Objetivo:** Practicar cómo agregar contenido a un archivo existente.
+
+**Instrucciones:**
+
+* Agrega una nueva línea a `data.txt` con la fecha y hora actual usando `DateTime.now().toIso8601String()`.
+
+**Resultado Esperado:**
+
 ```
-$ curl http://0.0.0.0:8080
-Hello, World!
-$ curl http://0.0.0.0:8080/echo/I_love_Dart
-I_love_Dart
+User activity log initialized
+2025-07-16T14:22:08.123Z
 ```
 
-You should see the logging printed in the first terminal:
+**Nombre de la función:** `appendLogEntry()`
+
+---
+
+### 2. Leer Contenido de un Archivo
+
+**Obligatorio**
+**Objetivo:** Aprender a leer contenido de un archivo.
+
+**Instrucciones:**
+
+* Lee el contenido de `data.txt` y devuélvelo como una `List<String>`, donde cada elemento sea una línea.
+
+**Resultado Esperado:**
+
 ```
-2021-05-06T15:47:04.620417  0:00:00.000158 GET     [200] /
-2021-05-06T15:47:08.392928  0:00:00.001216 GET     [200] /echo/I_love_Dart
+["User activity log initialized", "2025-07-16T14:22:08.123Z"]
 ```
+
+**Nombre de la función:** `readLogFile()`
+
+---
+
+### 3. Listar Archivos en un Directorio
+
+**Obligatorio**
+**Objetivo:** Entender cómo navegar y listar archivos en un directorio.
+
+**Instrucciones:**
+
+* Crea una función que liste todos los nombres de archivos (no directorios) en el directorio `storage/`.
+
+**Resultado Esperado:**
+
+```
+["data.txt"]
+```
+
+**Nombre de la función:** `listStorageFiles()`
+
+---
+
+### 4. Manejo de Errores
+
+**Obligatorio**
+**Objetivo:** Agregar robustez mediante manejo de excepciones.
+
+**Instrucciones:**
+
+* Envuelve las funciones de lectura y escritura de archivos en bloques `try-catch`.
+* Registra o devuelve un mensaje amigable si alguna operación de archivo falla.
+
+**Resultado Esperado:**
+
+* Las funciones no se detienen por errores de archivos faltantes o problemas de permisos.
+* Mensajes como: `"Error: Could not read file"` o `"Error: File not found"` son devueltos o impresos.
+
+**Nombre de las funciones:** Usar los mismos nombres anteriores (`initializeLogFile`, `appendLogEntry`, etc.) con manejo de errores añadido.
+
+---
+
+### 5. Eliminar un Archivo de Forma Segura
+
+**Obligatorio**
+**Objetivo:** Eliminar un archivo de manera segura si existe.
+
+**Instrucciones:**
+
+* Verifica si `data.txt` existe en `storage/`.
+* Si existe, elimínalo y devuelve `true`.
+* Si no, devuelve `false`.
+
+**Resultado Esperado:**
+
+* El archivo se elimina si está presente, y la función devuelve un booleano (`true` o `false`).
+
+**Nombre de la función:** `deleteLogFileIfExists()`
