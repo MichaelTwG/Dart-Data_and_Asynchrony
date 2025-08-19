@@ -1,5 +1,5 @@
 # Datos y Asincronía en Dart
-
+                                                                                                                                                                                                                                                                                                                                                               
 ## Manejo de Archivos
 
 *Introducción y Contexto*
@@ -122,3 +122,120 @@ User activity log initialized
 * El archivo se elimina si está presente, y la función devuelve un booleano (`true` o `false`).
 
 **Nombre de la función:** `deleteLogFileIfExists()`
+
+---
+
+## Integración de APIs
+
+**Introducción y Contexto**
+La mayoría de las aplicaciones modernas dependen de datos externos a través de APIs. Ya sea para obtener información del clima, enviar respuestas de formularios o integrarse con servicios en la nube, comprender la comunicación HTTP es esencial.
+Este proyecto introduce a los estudiantes a realizar solicitudes HTTP usando el paquete `http` y a convertir las respuestas en estructuras de Dart utilizables mediante parsing y manejo asincrónico.
+
+---
+
+### 0. Realizar una Solicitud GET
+
+**Obligatorio**
+**Objetivo:** Aprender a obtener datos de una API pública.
+
+**Instrucciones:**
+
+* Usa el paquete `http` para hacer una solicitud GET al endpoint:
+  `https://jsonplaceholder.typicode.com/posts/1`
+* Parsear el JSON de la respuesta y extraer: `title` y `body`.
+
+**Salida Esperada:**
+
+```dart
+{
+  'title': 'some title',
+  'body': 'some body'
+}
+```
+
+**Nombre de la función:** `fetchPost()`
+
+---
+
+### 1. Manejar Errores en Solicitudes GET
+
+**Obligatorio**
+**Objetivo:** Introducir manejo de errores para solicitudes fallidas.
+
+**Instrucciones:**
+
+* Modificar `fetchPost()` para capturar y devolver un mapa por defecto si:
+
+  * El código de estado no es 200
+  * O ocurre alguna excepción
+
+**Salida Esperada:**
+
+```dart
+{
+  'title': 'Unavailable',
+  'body': 'Error fetching post'
+}
+```
+
+**Nombre de la función:** `fetchPost()`
+
+---
+
+### 2. Parsear Múltiples Publicaciones
+
+**Obligatorio**
+**Objetivo:** Manejar listas en respuestas JSON.
+
+**Instrucciones:**
+
+* Realizar una solicitud GET a:
+  `https://jsonplaceholder.typicode.com/posts`
+* Devolver únicamente los títulos de los posts como lista.
+
+**Salida Esperada:**
+
+* Una `List<String>` con 100 títulos de publicaciones.
+
+**Nombre de la función:** `fetchPostTitles()`
+
+---
+
+### 3. (Opcional) Usar Headers Personalizados
+
+**Obligatorio**
+**Objetivo:** Enviar headers en las solicitudes.
+
+**Instrucciones:**
+
+* Modificar `sendPost()` para incluir el header:
+
+```dart
+'Content-type': 'application/json; charset=UTF-8'
+```
+
+**Salida Esperada:** Igual que la Tarea 3, con la respuesta exitosa usando headers personalizados.
+
+**Nombre de la función:** `sendPost()`
+
+---
+
+### 4. Manejador Genérico de Solicitudes
+
+**Obligatorio**
+**Objetivo:** Abstraer y reutilizar la lógica de solicitudes.
+
+**Instrucciones:**
+
+* Crear una función `getJsonResponse(String url)` que:
+
+  * Realice una solicitud GET
+  * Parse la respuesta
+  * Devuelva un `dynamic` con el JSON decodificado
+
+**Salida Esperada:**
+Puede ser reutilizada en `fetchPost()` y `fetchPostTitles()`.
+
+**Nombre de la función:** `getJsonResponse(String url)`
+
+---

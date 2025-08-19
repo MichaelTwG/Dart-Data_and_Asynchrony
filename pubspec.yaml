@@ -7,3 +7,4 @@ environment:
 
 dependencies:
   intl:  any
+  http: ^1.1.0
