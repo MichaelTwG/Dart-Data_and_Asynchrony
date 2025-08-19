@@ -1,5 +1,5 @@
 # Datos y Asincronía en Dart
-                                                                                                                                                                                                                                                                                                                                                               
+
 ## Manejo de Archivos
 
 *Introducción y Contexto*
@@ -239,3 +239,139 @@ Puede ser reutilizada en `fetchPost()` y `fetchPostTitles()`.
 **Nombre de la función:** `getJsonResponse(String url)`
 
 ---
+
+## Serialización y Deserialización de JSON  
+
+**Introducción y Contexto**
+Interactuar con APIs casi siempre implica trabajar con datos estructurados en formato **JSON**. Para usar estos datos de manera efectiva en aplicaciones Dart, los desarrolladores deben **serializar** (convertir objetos a JSON) y **deserializar** (convertir JSON a objetos).  
+
+Este proyecto guía a los estudiantes a través del mapeo manual y presenta herramientas automatizadas como **json_serializable** para simplificar el proceso.  
+
+---
+
+### Objetivos de Aprendizaje  
+Al final de este proyecto, los estudiantes serán capaces de:  
+
+- Serializar y deserializar objetos de Dart usando `dart:convert`.  
+- Modelar estructuras JSON anidadas con clases Dart.  
+- Implementar manualmente los métodos `fromJson` y `toJson`.  
+- Usar el paquete **json_serializable** para la generación automática de código.  
+
+---
+
+## Ejercicios  
+
+### 0. Deserializar un Objeto JSON Simple  
+**Obligatorio**  
+**Objetivo:** Convertir una cadena JSON en un objeto Dart.  
+
+**Instrucciones:**  
+Dado el siguiente JSON:  
+
+```json
+{
+  "id": 1,
+  "name": "Alice",
+  "email": "alice@example.com"
+}
+````
+
+* Crear una clase `User` con los campos `id`, `name` y `email`.
+* Implementar un constructor `fromJson(Map<String, dynamic> json)`.
+
+**Resultado Esperado:**
+`User.fromJson` crea correctamente un objeto Dart con los campos correspondientes.
+
+* **Nombre de la clase:** `User`
+* **Nombre del método:** `User.fromJson(Map<String, dynamic> json)`
+
+---
+
+### 1. Serializar un Objeto Dart a JSON
+
+**Obligatorio**
+**Objetivo:** Convertir un objeto Dart en un mapa compatible con JSON.
+
+**Instrucciones:**
+
+* Agregar un método `toJson()` a la clase `User` creada en el ejercicio anterior.
+* Debe devolver un `Map<String, dynamic>` representando al usuario.
+
+**Resultado Esperado:**
+
+```json
+{
+  "id": 1,
+  "name": "Alice",
+  "email": "alice@example.com"
+}
+```
+
+* **Nombre del método:** `Map<String, dynamic> toJson()`
+
+---
+
+### 2. Deserializar una Lista de Objetos
+
+**Obligatorio**
+**Objetivo:** Manejar un arreglo de objetos JSON.
+
+**Instrucciones:**
+
+* Dado un arreglo JSON de usuarios, analizarlo y devolver una `List<User>`.
+
+**Resultado Esperado:**
+Una función que retorne una lista de instancias `User` a partir de un arreglo JSON.
+
+* **Nombre de la función:** `List<User> parseUsers(String jsonStr)`
+
+---
+
+### 3. Trabajar con JSON Anidado
+
+**Obligatorio**
+**Objetivo:** Manejar estructuras de datos anidadas.
+
+**Instrucciones:**
+Dado el siguiente JSON:
+
+```json
+{
+  "orderId": 101,
+  "customer": {
+    "id": 5,
+    "name": "Bob"
+  },
+  "total": 99.99
+}
+```
+
+* Crear una clase Dart `Order` con un objeto anidado `Customer`.
+* Implementar `fromJson` y `toJson` en ambas clases.
+
+**Resultado Esperado:**
+Se pueden serializar y deserializar objetos `Order`, incluyendo el objeto anidado `Customer`.
+
+* **Clases:** `Order`, `Customer`
+* **Métodos:** `fromJson`, `toJson` en cada clase
+
+---
+
+### 4. Automatizar con `json_serializable`
+
+**Obligatorio**
+**Objetivo:** Aprender a automatizar la serialización de JSON.
+
+**Instrucciones:**
+
+* Agregar `json_serializable` y `build_runner` a `pubspec.yaml`.
+* Anotar la clase `User` con `@JsonSerializable()`.
+* Usar la directiva `part` y ejecutar el build para generar el código de serialización.
+
+**Resultado Esperado:**
+
+* Se generan archivos como `user.g.dart`.
+
+* `User.fromJson()` y `User.toJson()` funcionan sin implementación manual.
+
+* **Paquetes:** `json_serializable`, `build_runner`
