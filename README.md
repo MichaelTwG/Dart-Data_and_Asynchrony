@@ -375,3 +375,134 @@ Se pueden serializar y deserializar objetos `Order`, incluyendo el objeto anidad
 * `User.fromJson()` y `User.toJson()` funcionan sin implementación manual.
 
 * **Paquetes:** `json_serializable`, `build_runner`
+
+---
+
+# Programación Asíncrona en Dart
+
+La programación asíncrona es esencial para aplicaciones modernas que interactúan con archivos, redes o entradas del usuario sin bloquear el hilo principal.  
+Dart ofrece herramientas poderosas como `Future`, `Stream` y `async/await` para gestionar estos flujos.  
+Este proyecto entrena a los estudiantes a pensar en flujos asíncronos, manejar demoras y concurrencia, y procesar datos continuos como eventos o streams.
+
+---
+
+## 0. Simular una Operación con Retardo  
+**Obligatorio**  
+**Objetivo:** Aprender a usar `Future.delayed`.
+
+### Instrucciones
+- Crear una función que simule una llamada de red con un retardo de 2 segundos.  
+- Retornar la cadena `"Data received"` después del retardo.  
+
+**Resultado Esperado:** Después de 2 segundos, la función completa y retorna la cadena.  
+
+**Nombre de la función:**  
+```dart
+Future<String> simulateNetworkCall()
+````
+
+---
+
+## 1. Encadenar Múltiples Futuros
+
+**Obligatorio**
+**Objetivo:** Comprender cómo ejecutar tareas asíncronas de manera secuencial.
+
+### Instrucciones
+
+* Escribir una función que:
+
+  1. Espere 1 segundo y muestre `"Step 1"`.
+  2. Espere otro segundo y muestre `"Step 2"`.
+  3. Retorne `"Done"`.
+
+**Resultado Esperado:** Los mensajes aparecen con 1 segundo de diferencia; la función retorna `"Done"`.
+
+**Nombre de la función:**
+
+```dart
+Future<String> multiStepProcess()
+```
+
+---
+
+## 2. Crear un Stream desde una Lista
+
+**Obligatorio**
+**Objetivo:** Aprender a emitir valores como un stream.
+
+### Instrucciones
+
+* Crear una función que reciba una lista de enteros y retorne un stream que emita cada ítem con un retardo de 500ms entre ellos.
+
+**Resultado Esperado:** Un `Stream<int>` que emite valores a intervalos de 0.5 segundos.
+
+**Nombre de la función:**
+
+```dart
+Stream<int> emitWithDelay(List<int> values)
+```
+
+---
+
+## 3. Escuchar y Cancelar un Stream
+
+**Obligatorio**
+**Objetivo:** Trabajar con suscripciones y control de streams.
+
+### Instrucciones
+
+* Suscribirse al stream creado en la Tarea 2.
+* Cancelar la suscripción después de 3 emisiones.
+
+**Resultado Esperado:** Solo se imprimen los primeros 3 ítems de la lista.
+
+**Nombre de la función:**
+
+```dart
+void listenAndCancel(Stream<int> stream)
+```
+
+---
+
+## 4. Manejar Errores en Código Asíncrono
+
+**Obligatorio**
+**Objetivo:** Introducir manejo robusto de errores.
+
+### Instrucciones
+
+* Modificar `simulateNetworkCall()` para que aleatoriamente lance una excepción (`"Network error"`) o retorne datos.
+* Usar `try/catch` para manejar la excepción y retornar `"Fallback data"`.
+
+**Resultado Esperado:** La función retorna `"Data received"` o `"Fallback data"`, dependiendo del error.
+
+**Nombre de la función:**
+
+```dart
+Future<String> safeNetworkCall()
+```
+
+---
+
+## 5. Operaciones Asíncronas en Paralelo
+
+**Obligatorio**
+**Objetivo:** Usar `Future.wait` para concurrencia.
+
+### Instrucciones
+
+* Crear 3 llamadas API simuladas usando `Future.delayed` que retornen cadenas distintas después de diferentes retrasos (1s, 2s, 3s).
+* Usar `Future.wait` para ejecutarlas todas y retornar el resultado combinado como una `List<String>`.
+
+**Resultado Esperado:**
+
+```dart
+["First", "Second", "Third"]
+```
+
+**Nombre de la función:**
+
+```dart
+Future<List<String>> runParallelCalls()
+```
