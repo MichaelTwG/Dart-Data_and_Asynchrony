@@ -506,3 +506,126 @@ Future<String> safeNetworkCall()
 ```dart
 Future<List<String>> runParallelCalls()
 ```
+
+---
+
+# Capstone: Aplicación de Gestión de Datos Cliente-Servidor  
+
+## Async Notes Manager – Gestor de Notas Local + Remoto (CLI)  
+
+### Introducción y Contexto  
+Este proyecto integra todo lo aprendido en el módulo. Los estudiantes construirán una aplicación ligera de gestión de notas que:  
+
+- Almacena notas localmente usando **file I/O**.  
+- Sincroniza con una API remota simulada.  
+- Serializa y deserializa notas en formato **JSON**.  
+- Usa programación **asíncrona** (`Future`, `Stream`) para ejecución no bloqueante.  
+
+La aplicación simula desafíos del mundo real relacionados con la comunicación cliente-servidor, persistencia local y manejo robusto de errores en una herramienta coherente.  
+
+---
+
+### Objetivos de Aprendizaje  
+Al finalizar este proyecto, los estudiantes podrán:  
+
+- Persistir y recuperar datos estructurados desde archivos locales.  
+- Comunicar con APIs remotas mediante solicitudes GET y POST.  
+- Serializar objetos Dart a JSON y viceversa.  
+- Manejar flujos asíncronos usando `Future`, `Stream` y manejo de errores.  
+- Escribir código Dart modular y testeable.  
+
+---
+
+## Requisitos  
+Se construirá una aplicación CLI en Dart con las siguientes características:  
+
+| Función | Descripción |
+|---------|------------|
+| **Crear una Nota** | Solicita título y contenido al usuario, guarda localmente y opcionalmente sincroniza. |
+| **Ver Todas las Notas** | Lee desde el archivo local y muestra las notas en la consola. |
+| **Sincronizar Notas con Servidor Remoto** | Envía todas las notas a una API simulada vía HTTP POST. |
+| **Obtener Notas del Servidor Remoto** | Recupera notas mediante HTTP GET y las guarda localmente. |
+| **Emitir Notas en Stream** | Muestra notas guardadas una por una usando un Stream con retraso entre cada impresión. |
+| **Flujo Resistente a Errores** | Captura y registra errores de API o sistema de archivos sin que la app falle. |
+
+---
+
+## Ejercicios  
+
+### 0. Definir el Modelo de Nota  
+**Obligatorio**  
+**Objetivo:** Crear una clase Dart que represente una nota.  
+
+**Instrucciones:**  
+- Definir los campos: `id`, `title`, `body`, `createdAt`.  
+- Implementar métodos `fromJson` y `toJson` (manual o usando **json_serializable**).  
+
+**Resultado Esperado:**  
+Clase `Note` con métodos para serializar y deserializar.  
+
+---
+
+### 1. Guardar y Cargar Notas en Almacenamiento Local  
+**Obligatorio**  
+**Objetivo:** Implementar **file I/O** para persistir notas.  
+
+**Instrucciones:**  
+- Usar `dart:io` para escribir una lista de notas en `storage/notes.json`.  
+- Al iniciar la app, leer el archivo y cargar las notas existentes en memoria.  
+
+**Resultado Esperado:**  
+- Archivo JSON con todas las notas almacenadas localmente.  
+- Capacidad de recargar las notas al reiniciar la aplicación.  
+
+---
+
+### 2. Crear y Agregar una Nota  
+**Obligatorio**  
+**Objetivo:** Agregar interactividad en CLI para crear notas.  
+
+**Instrucciones:**  
+- Solicitar al usuario el título y contenido.  
+- Generar un ID único y timestamp.  
+- Guardar en el archivo local.  
+
+**Resultado Esperado:**  
+Una nueva nota se agrega a la lista local y se guarda en `notes.json`.  
+
+---
+
+### 3. Sincronizar con API Remota  
+**Obligatorio**  
+**Objetivo:** Enviar y recibir datos desde una API simulada.  
+
+**Instrucciones:**  
+- Usar `http.post()` para enviar todas las notas locales a: `https://jsonplaceholder.typicode.com/posts`.  
+- Usar `http.get()` para obtener notas de ejemplo y convertirlas a objetos `Note`.  
+
+**Resultado Esperado:**  
+- Notas locales enviadas al servidor remoto.  
+- Notas remotas guardadas localmente en `notes.json`.  
+
+---
+
+### 4. Emitir Notas en Consola mediante Stream  
+**Obligatorio**  
+**Objetivo:** Usar **Stream** para mostrar notas con retraso.  
+
+**Instrucciones:**  
+- Crear una función que lea las notas y las emita una por una con un retraso de 1 segundo.  
+
+**Resultado Esperado:**  
+Las notas aparecen secuencialmente en la consola.  
+
+---
+
+### 5. Manejar Errores de Forma Robusta  
+**Obligatorio**  
+**Objetivo:** Asegurar que la app no falle ante excepciones.  
+
+**Instrucciones:**  
+- Envolver llamadas a la API y operaciones de archivos en bloques `try/catch`.  
+- Registrar errores y usar valores por defecto si es necesario.  
+
+**Resultado Esperado:**  
+- La aplicación continúa ejecutándose y muestra mensajes de error cuando ocurren problemas.  

@@ -8,3 +8,4 @@ environment:
 dependencies:
   intl:  any
   http:  ^1.1.0
+  uuid: ^4.5.1
