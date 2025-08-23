@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import '../models/note.dart';
@@ -156,23 +157,42 @@ Future<void> stremOfNotes(NoteRepository repository) async {
 
     if (notes.isEmpty) {
       print("No nothes to stream");
+      return;
     }
 
-    //Make a Stream that emit a note every second
-    Stream<Note> noteStream = Stream<Note>.fromIterable(notes)
-    .asyncMap((note) async {
-      await Future.delayed(Duration(seconds:1));
-      return note;
+    final controller = StreamController<Note>();
+
+    // Emisor de notas con retraso
+    Future<void> emitNotes() async {
+      for (var note in notes) {
+        if (controller.isClosed) break;
+        await Future.delayed(Duration(seconds:1));
+        controller.add(note);
+      }
+      await controller.close();
+    }
+
+    emitNotes();
+
+    print("Streaming notes... Press ENTER to cancel.\n");
+
+    //Listen the input of the user to cancel the stream
+    stdin.lineMode = false; // to read witout the user confirmation
+    stdin.listen((_) async {
+      await controller.close();
+      print("\nStreaming cancelled by user.");
+      stdin.lineMode = true; // restore the line mode to default
     });
 
-    //Lisen the stream and print every note
-    await for (var note in noteStream) {
+    await for (var note in controller.stream) {
       print("ID: ${note.id}");
       print("Title: ${note.title}");
       print("Body: ${note.body}");
       print("Created at: ${note.createdAt}");
       print(" --------------------- ");
     }
+
+    stdin.lineMode = true; // restore the line mode to default if end by itself
   } on Error catch (e, st) {
     print("Error streaming notes: $e");
     print(st);
